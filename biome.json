@@ -1,0 +1,22 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+  "linter": {
+    "rules": {
+      "style": {
+        "noNonNullAssertion": "off"
+      }
+    }
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 90
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingComma": "none"
+    }
+  }
+}

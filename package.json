@@ -1,6 +1,6 @@
 {
   "name": "outfit-ai",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,13 +9,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.4",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.4",
-    "clsx": "^2.1.1",
     "just-is-empty": "^3.4.1",
+    "just-merge": "^3.2.0",
     "next": "14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.3.0",
     "valibot": "0.31.0-rc.5"
   },
   "devDependencies": {
@@ -26,7 +28,6 @@
     "@types/react-dom": "^18.3.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.4.5"
   }
 }

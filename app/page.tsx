@@ -1,6 +1,6 @@
-import clsx from 'clsx/lite'
 import Image from 'next/image'
 import { permanentRedirect } from 'next/navigation'
+import { twJoin } from 'tailwind-merge'
 import Form from './components/form'
 import { createClient } from './lib/supabase'
 
@@ -17,7 +17,7 @@ export default async function Page() {
       }
     >
       <section
-        className={clsx(
+        className={twJoin(
           'w-full flex flex-col items-center gap-10 sm:gap-12',
           'lg:landscape:flex-row-reverse lg:landscape:*:flex-1'
         )}

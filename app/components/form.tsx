@@ -1,7 +1,9 @@
 'use client'
 
-import clsx from 'clsx'
+import { Button, Input, Transition } from '@headlessui/react'
 import { type FormEvent, useRef, useState, useTransition } from 'react'
+import { twJoin } from 'tailwind-merge'
+import classes from '~/lib/classes'
 import { signIn } from '../lib/actions'
 
 export default function Form() {
@@ -31,7 +33,7 @@ export default function Form() {
       onSubmit={handleSubmit}
     >
       <label className="my-5">
-        <input
+        <Input
           className={
             'w-72 rounded-md text-lg focus:border-primary focus:ring-primary sm:w-80'
           }
@@ -39,29 +41,27 @@ export default function Form() {
           name="email"
           placeholder="Ingresa tu correo"
         />
-        {message && (
-          <span
-            className={clsx(
-              'block text-sm',
-              { 'animate-in fade-in': !isPending },
-              { 'text-danger': hasError }
-            )}
-          >
+        <Transition
+          show={!isPending && !!message}
+          enter="transition-opacity duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <span className={twJoin('block text-sm', hasError && 'text-danger')}>
             *{message}
           </span>
-        )}
+        </Transition>
       </label>
-      <button
-        className={clsx(
-          'w-72 p-2 rounded-md bg-primary/95 font-bold text-lg text-default',
-          'transition-colors hover:bg-primary disabled:bg-primary/85',
-          'disabled:animate-pulse sm:w-80'
-        )}
+      <Button
+        className={twJoin(classes.button, 'disabled:animate-pulse sm:w-80')}
         type="submit"
         disabled={isPending}
       >
         Obtener enlace de acceso
-      </button>
+      </Button>
     </form>
   )
 }

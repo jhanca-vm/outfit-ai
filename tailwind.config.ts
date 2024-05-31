@@ -1,6 +1,5 @@
 import forms from '@tailwindcss/forms'
 import type { Config } from 'tailwindcss'
-import animate from 'tailwindcss-animate'
 
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}'],
@@ -9,14 +8,15 @@ const config: Config = {
       colors: {
         default: '#fcfcfc',
         primary: '#343f4b',
-        danger: '#931925'
+        danger: '#931925',
+        grey: '#e5e9f2'
       },
       fontFamily: {
         sans: 'var(--font-lato)'
       }
     }
   },
-  plugins: [forms, animate]
+  plugins: [forms]
 }
 
 export default config

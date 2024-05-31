@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { email, pipe, safeParse, string } from 'valibot'
 import { createClient } from './supabase'
+import { redirect } from 'next/navigation'
 
 export async function signIn(formData: FormData) {
   const result = safeParse(pipe(string(), email()), formData.get('email'))
@@ -30,4 +31,12 @@ export async function updateUser(data: UserMetadata, revalidate = false) {
   if (revalidate) revalidatePath('/home', 'layout')
 
   return user!.user_metadata
+}
+
+export async function signOut() {
+  const supabase = createClient()
+
+  await supabase.auth.signOut()
+
+  redirect('/')
 }

@@ -1,7 +1,16 @@
-export default function Loading() {
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  className?: string
+}
+
+export default function Loading({ className }: Props) {
   return (
     <svg
-      className="animate-spin w-16 fill-none stroke-2 stroke-primary/95"
+      className={twMerge(
+        'animate-spin w-16 fill-none stroke-2 stroke-primary/95',
+        className
+      )}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       strokeLinecap="round"

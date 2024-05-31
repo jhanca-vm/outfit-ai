@@ -9,7 +9,6 @@ export async function GET(request: Request) {
     const supabase = createClient()
 
     await supabase.auth.exchangeCodeForSession(code)
-    await supabase.auth.updateUser({ data: { is_complete: false } })
   }
 
   return NextResponse.redirect(`${url.origin}/home`)

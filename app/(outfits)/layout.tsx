@@ -14,7 +14,7 @@ export default async function Layout({ children }: PropsWithChildren) {
 
   const { user_metadata } = user
 
-  if (!user_metadata?.is_complete) return <Form metadata={user_metadata} />
+  if (!user_metadata?.gender) return <Form />
 
   return (
     <>

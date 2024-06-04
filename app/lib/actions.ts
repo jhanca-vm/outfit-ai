@@ -22,15 +22,12 @@ export async function signIn(formData: FormData) {
   return { hasError: false, message: 'Se ha enviado un enlace a tu correo.' }
 }
 
-export async function updateUser(data: UserMetadata, revalidate = false) {
+export async function updateUser(data: UserMetadata) {
   const supabase = createClient()
-  const {
-    data: { user }
-  } = await supabase.auth.updateUser({ data })
 
-  if (revalidate) revalidatePath('/home', 'layout')
+  await supabase.auth.updateUser({ data })
 
-  return user!.user_metadata
+  revalidatePath('/home', 'layout')
 }
 
 export async function signOut() {

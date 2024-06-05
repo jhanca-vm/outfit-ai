@@ -37,20 +37,10 @@ export default function Fields({ handleChanges }: Props) {
         value={style}
         handleChange={setStyle}
       >
-        {gender && (
-          <>
-            <option value="casual">Casual</option>
-            <option value="elegant">Elegante</option>
-            <option value="urban">Urbano</option>
-            <option value="sporty">Deportivo</option>
-            {gender === 'woman' && (
-              <>
-                <option value="sexy">Sexy</option>
-                <option value="romantic">Romántico</option>
-              </>
-            )}
-          </>
-        )}
+        <option value="casual">Casual</option>
+        <option value="elegant">Elegante</option>
+        <option value="urban">Urbano</option>
+        <option value="sporty">Deportivo</option>
       </Select>
       <Select
         className="sm:col-span-2"

@@ -19,7 +19,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      {children}
       <style>{'body.bg-default { background-color: #e5e9f2 }'}</style>
     </>
   )

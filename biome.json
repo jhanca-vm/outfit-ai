@@ -3,7 +3,8 @@
   "linter": {
     "rules": {
       "style": {
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useTemplate": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off"

@@ -30,7 +30,12 @@ export default function Modal({ user, outfit, setOutfit }: Props) {
 
   return (
     <Transition show={open}>
-      <Dialog className="relative z-10" onClose={isPending ? undefined : setOpen}>
+      <Dialog
+        className="relative z-10"
+        onClose={value => {
+          if (!isPending) setOpen(value)
+        }}
+      >
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"

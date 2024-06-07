@@ -7,7 +7,7 @@ export default async function Page() {
   const userData = data.user!.user_metadata
 
   return (
-    <main className="mx-auto max-w-6xl px-6 pt-4 pb-10 grid lg:grid-cols-2">
+    <main className="mx-auto max-w-6xl px-6 pb-12 grid md:grid-cols-3">
       <Garments userData={userData} />
     </main>
   )

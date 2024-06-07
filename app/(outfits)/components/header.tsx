@@ -12,7 +12,7 @@ export default function Header() {
   const [isPending, startTransition] = useTransition()
   const links = [
     ['/home', 'Inicio'],
-    ['/outfits', 'Mis Outfits']
+    ['/mis-outfits', 'Mis Outfits']
   ]
 
   return (

@@ -1,86 +1,102 @@
 'use client'
 
-import kebabCase from 'just-kebab-case'
-import get from 'just-safe-get'
-import Image from 'next/image'
-import { useState } from 'react'
-import { twJoin } from 'tailwind-merge'
-import useGarments from '../hooks/use-garments'
-import Tabs from './tabs'
-import Button from '~/components/button'
 import type { UserMetadata } from '@supabase/supabase-js'
+import { Fragment, useState } from 'react'
+import { ColorPicker, useColor } from 'react-color-palette'
+import 'react-color-palette/css'
+import { twJoin } from 'tailwind-merge'
+import Button from '~/components/button'
+import useGarments from '../hooks/use-garments'
+import Garment from './garment'
+import Tabs from './tabs'
+import Modal from './modal'
+import IconChevron from './icon-chevron'
 
 interface Props {
   userData: UserMetadata
 }
 
 export default function Garments({ userData }: Props) {
-  const { gender, style } = userData
-  const { tabs, data, state, outfit, isLoading, dispatch, generate } =
-    useGarments(userData)
+  const { isLoading, styleState, outfitState, reducer, generate } = useGarments(userData)
   const [selectedTab, setSelectedTab] = useState('top')
+  const [color, setColor] = useColor('#343f4b')
+
+  const styles = [
+    ['casual', 'Casual'],
+    ['elegant', 'Elegante'],
+    ['urban', 'Urbano'],
+    ['sporty', 'Deportivo']
+  ]
+
+  const tabs = [
+    ['top', 'Prenda Superior'],
+    ['bottom', 'Prenda Inferior'],
+    ['shoes', 'Calzados']
+  ]
 
   return (
     <>
-      <section className={isLoading ? 'pointer-events-none' : undefined}>
-        <Tabs data={tabs} selectedTab={selectedTab} handleClick={setSelectedTab} />
-        <div className="grid grid-cols-2 gap-6 py-6 sm:grid-cols-3">
-          {get(data, `${gender}.${style}.${selectedTab}`).map(
-            ([id, label]: [string, string]) => (
-              <button
-                className={twJoin(
-                  'group rounded-lg font-bold tracking-wide disabled:opacity-80',
-                  'disabled:ring-2 disabled:ring-primary'
-                )}
-                type="button"
-                disabled={state?.[selectedTab] === id}
-                key={id}
-                onClick={() => dispatch({ [selectedTab]: id })}
+      <nav
+        className={twJoin(
+          'my-2 py-1 px-2 bg-default/65 rounded shadow-sm md:col-span-3',
+          isLoading && 'pointer-events-none'
+        )}
+      >
+        <ul className="flex items-center gap-1 text-sm">
+          {styles.map(([style, name], index) => (
+            <Fragment key={style}>
+              {index !== 0 && (
+                <li>
+                  <IconChevron />
+                </li>
+              )}
+              <li
+                className={style === styleState.value ? 'font-bold' : 'text-primary/90'}
               >
-                <figure
-                  className={twJoin(
-                    'relative mb-1 aspect-[5/6] overflow-hidden rounded-lg',
-                    'pointer-events-none'
-                  )}
-                >
-                  <Image
-                    className={twJoin(
-                      'object-cover object-center',
-                      state?.[selectedTab] !== id && 'group-hover:opacity-75'
-                    )}
-                    src={`garments/${gender}/${style}/${selectedTab}/${kebabCase(
-                      id
-                    )}.webp`}
-                    alt=""
-                    fill
-                    sizes="50vw"
-                    priority
-                  />
-                </figure>
-                {label}
-              </button>
-            )
-          )}
-        </div>
+                <button type="button" onClick={() => styleState.setValue(style)}>
+                  {name}
+                </button>
+              </li>
+            </Fragment>
+          ))}
+        </ul>
+      </nav>
+      <section
+        className={twJoin(
+          'pt-6 md:col-span-2 md:pr-12 lg:pr-16',
+          isLoading && 'pointer-events-none'
+        )}
+      >
+        <Tabs data={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        <Garment
+          gender={userData.gender}
+          style={styleState.value}
+          selectedTab={selectedTab}
+          state={reducer.state}
+          dispatch={reducer.dispatch}
+        />
       </section>
-      <section className="w-full max-w-xs mx-auto">
-        <figure
-          className={twJoin(
-            'relative aspect-square bg-primary/10 overflow-hidden rounded-lg',
-            'border-2 border-dashed border-primary/20',
-            isLoading && 'bg-gradient-to-r from-primary/10 to-primary/5 animate-pulse'
-          )}
-        >
-          {outfit && <Image src={outfit} alt="" fill sizes="50vw" unoptimized />}
-        </figure>
+      <section className="w-full max-w-xs mx-auto pt-4">
+        <h3 className="mb-2 text-center text-primary/90">Color principal</h3>
+        <ColorPicker
+          hideAlpha
+          hideInput={['rgb', 'hsv']}
+          color={color}
+          onChange={setColor}
+        />
         <Button
           className="w-full mt-6 disabled:opacity-25 disabled:pointer-events-none"
           loading={isLoading}
-          onClick={generate}
+          onClick={() => generate(color.hex)}
         >
           Generar Outfit
         </Button>
       </section>
+      <Modal
+        user={userData.email}
+        outfit={outfitState.value}
+        setOutfit={outfitState.setValue}
+      />
     </>
   )
 }
